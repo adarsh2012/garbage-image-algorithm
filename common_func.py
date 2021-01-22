@@ -39,3 +39,14 @@ def getBottleEdges(img, mask=None, thresh = 50, gsize=15, sobsize=5):
     return img_fin
 
 
+def countFiles(path):
+    count = 0
+    for im in glob.glob(path+"/**/*.tiff", recursive=True):
+        count += 1
+    return count
+
+if __name__ == "__main__":
+    path = r"D:\Documents\Capstone_Work\Testing_Sample_keras\Bad_images_bottom"
+    print(countFiles(path))
+
+

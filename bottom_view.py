@@ -28,10 +28,11 @@ if __name__ == "__main__":
     imgLoc = input("Image location: ")
     storeLoc = os.path.join(imgLoc, "BadImages")
     os.mkdir(storeLoc)
-    print("Starting....")
+    imgAmt = countFiles(imgLoc)
+    print("Starting.... image amount = {}".format(imgAmt))
     for im in glob.glob(imgLoc + "/**/*.tiff", recursive=True):
-        print(im)
         pred = isGoodImage(im, houghParams=hf_param, edgeParams=eg_param)
         if(pred == 0):
             shutil.move(im, storeLoc)
-        
+        imgAmt -= 1
+        print("Working on: {}, {} images left".format(im, imgAmt))

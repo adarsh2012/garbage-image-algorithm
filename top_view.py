@@ -47,11 +47,13 @@ if __name__ == "__main__":
     storeLoc = os.path.join(imgLoc, "BadImages")
     if(os.path.exists(storeLoc) == False):
         os.mkdir(storeLoc)
-    print("Starting....")
+    imgAmt = countFiles(imgLoc)
+    print("Starting.... image amount = {}".format(imgAmt))
     for im in glob.glob(imgLoc + "/**/*.tiff", recursive=True):
-        print(im)
         img_rgb, img_with_circle, circles, img_edge = getTopViewCircles(im)
         pred = topview_bad_detect(img_rgb, circles, ratioThresh=ratio)
         if(pred == 0):
             shutil.move(im, storeLoc)
-   
+        imgAmt -= 1
+        print("Working on: {}, {} images left".format(im, imgAmt))
+
