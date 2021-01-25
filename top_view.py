@@ -38,22 +38,14 @@ def topview_bad_detect(img, circles, ratioThresh=0.3):
             if(ratio > ratioThresh):
                 return 0
     return 1
-    
+
+def topViewPredictWrap(imgpath, ratio):
+    img_rgb, img_with_circle, circles, img_edge = getTopViewCircles(imgpath)
+    pred = topview_bad_detect(img_rgb, circles, ratioThresh=ratio)
+    return pred
 
 if __name__ == "__main__":
     ratio = 0.3
     print("Ratio thresh: {}".format(ratio))
-    imgLoc = input("Image location: ")
-    storeLoc = os.path.join(imgLoc, "BadImages")
-    if(os.path.exists(storeLoc) == False):
-        os.mkdir(storeLoc)
-    imgAmt = countFiles(imgLoc)
-    print("Starting.... image amount = {}".format(imgAmt))
-    for im in glob.glob(imgLoc + "/**/*.tiff", recursive=True):
-        img_rgb, img_with_circle, circles, img_edge = getTopViewCircles(im)
-        pred = topview_bad_detect(img_rgb, circles, ratioThresh=ratio)
-        if(pred == 0):
-            shutil.move(im, storeLoc)
-        imgAmt -= 1
-        print("Working on: {}, {} images left".format(im, imgAmt))
+    procedureWrapper(topViewPredictWrap, {"ratio": ratio}
 

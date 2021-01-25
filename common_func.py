@@ -69,15 +69,16 @@ def procedureWrapper(modelPredict, modelParams):
         if(imgName in preBadImageList):
             continue
         try:
+            modelParams["imgpath"] = im
             pred = modelPredict(**modelParams)
             if(pred == 0):
                 shutil.move(im, storeLoc)
-            imgAmt -= 1
-            print("Working on: {}, {} images left".format(im, imgAmt))
         except Exception as e:
             print("ERR: for image:: {}\nErrorLog:\n".format(im))
             print(e)
             input(":::Press enter to continue:::")
+        imgAmt -= 1
+        print("Working on: {}, {} images left".format(im, imgAmt))
 
        
 

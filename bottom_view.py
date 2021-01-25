@@ -25,18 +25,5 @@ if __name__ == "__main__":
     hf_param = {"res": 1.5, "minDist": 1000, "param1": 200, "param2": 60, "minRadius": 300, "maxRadius": 550}
     eg_param = {"validThresh": 40}
     print("Hough - {}\nEdge - {}".format(hf_param, eg_param))
-    imgLoc = input("Image location: ")
-    storeLoc = os.path.join(imgLoc, "BadImages")
-    preBadImageList = allImgInDirec(storeLoc)
-    os.mkdir(storeLoc)
-    imgAmt = countFiles(imgLoc) - len(preBadImageList)
-    print("Starting.... image amount = {}".format(imgAmt))
-    for im in glob.glob(imgLoc + "/**/*.tiff", recursive=True):
-        imgName = os.path.split(im)[1] 
-        if(imgName in preBadImageList):
-            continue
-        pred = isGoodImage(im, houghParams=hf_param, edgeParams=eg_param)
-        if(pred == 0):
-            shutil.move(im, storeLoc)
-        imgAmt -= 1
-        print("Working on: {}, {} images left".format(im, imgAmt))
+    procedureWrapper(isGoodImage,{"houghParams": hf_param, "edgeParams": eg_param})
+
