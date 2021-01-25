@@ -45,8 +45,44 @@ def countFiles(path):
         count += 1
     return count
 
+def allImgInDirec(path):
+    return {imgs for imgs in os.listdir(path)}
+
+def makeBadImageDirec(path):
+    try:
+        os.mkdir(path)
+    except:
+        pass
+
+def procedureWrapper(modelPredict, modelParams):
+    imgLoc = input("Image location: ")
+    storeLoc = os.path.join(imgLoc, "BadImages")
+    #Creates directory if none exists
+    makeBadImageDirec(storeLoc)
+    #Now we collect all images that are already in the directory; Used for resuming the process
+    preBadImageList = allImgInDirec(storeLoc) 
+    #For the purpose of tracking the amount of images the model has been through 
+    imgAmt = countFiles(imgLoc) - len(preBadImageList)
+    print("Starting.... image amount = {}".format(imgAmt))
+    for im in glob.glob(imgLoc + "/**/*.tiff", recursive=True):
+        imgName = os.path.split(im)[1] 
+        if(imgName in preBadImageList):
+            continue
+        try:
+            pred = modelPredict(**modelParams)
+            if(pred == 0):
+                shutil.move(im, storeLoc)
+            imgAmt -= 1
+            print("Working on: {}, {} images left".format(im, imgAmt))
+        except Exception as e:
+            print("ERR: for image:: {}\nErrorLog:\n".format(im))
+            print(e)
+            input(":::Press enter to continue:::")
+
+       
+
 if __name__ == "__main__":
     path = r"D:\Documents\Capstone_Work\Testing_Sample_keras\Bad_images_bottom"
-    print(countFiles(path))
-
+    print(allImgInDirec(path))
+    
 

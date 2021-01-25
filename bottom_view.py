@@ -27,10 +27,14 @@ if __name__ == "__main__":
     print("Hough - {}\nEdge - {}".format(hf_param, eg_param))
     imgLoc = input("Image location: ")
     storeLoc = os.path.join(imgLoc, "BadImages")
+    preBadImageList = allImgInDirec(storeLoc)
     os.mkdir(storeLoc)
-    imgAmt = countFiles(imgLoc)
+    imgAmt = countFiles(imgLoc) - len(preBadImageList)
     print("Starting.... image amount = {}".format(imgAmt))
     for im in glob.glob(imgLoc + "/**/*.tiff", recursive=True):
+        imgName = os.path.split(im)[1] 
+        if(imgName in preBadImageList):
+            continue
         pred = isGoodImage(im, houghParams=hf_param, edgeParams=eg_param)
         if(pred == 0):
             shutil.move(im, storeLoc)
