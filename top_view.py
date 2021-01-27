@@ -47,5 +47,5 @@ def topViewPredictWrap(imgpath, ratio):
 if __name__ == "__main__":
     ratio = 0.3
     print("Ratio thresh: {}".format(ratio))
-    procedureWrapper(topViewPredictWrap, {"ratio": ratio})
+    procedureWrapper(topViewPredictWrap, {"ratio": ratio}, "top")
 

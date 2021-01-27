@@ -25,5 +25,5 @@ if __name__ == "__main__":
     hf_param = {"res": 1.5, "minDist": 1000, "param1": 200, "param2": 60, "minRadius": 300, "maxRadius": 550}
     eg_param = {"validThresh": 40}
     print("Hough - {}\nEdge - {}".format(hf_param, eg_param))
-    procedureWrapper(isGoodImage,{"houghParams": hf_param, "edgeParams": eg_param})
+    procedureWrapper(isGoodImage,{"houghParams": hf_param, "edgeParams": eg_param}, "bottom")
 

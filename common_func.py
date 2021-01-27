@@ -54,9 +54,10 @@ def makeBadImageDirec(path):
     except:
         pass
 
-def procedureWrapper(modelPredict, modelParams):
+def procedureWrapper(modelPredict, modelParams, viewName):
     imgLoc = input("Image location: ")
     storeLoc = os.path.join(imgLoc, "BadImages")
+    errLogName = "{}_view_errLog.txt".format(viewName)
     #Creates directory if none exists
     makeBadImageDirec(storeLoc)
     #Now we collect all images that are already in the directory; Used for resuming the process
@@ -75,8 +76,10 @@ def procedureWrapper(modelPredict, modelParams):
                 shutil.move(im, storeLoc)
         except Exception as e:
             print("ERR: for image:: {}\nErrorLog:\n".format(im))
-            print(e)
-            input(":::Press enter to continue:::")
+            print(e) 
+            with open(errLogName, "a") as errFile:
+                errFile.write(str(im))
+                errFile.write(os.linesep)
         imgAmt -= 1
         print("Working on: {}, {} images left".format(im, imgAmt))
 
