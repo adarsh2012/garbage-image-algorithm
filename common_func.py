@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 import os, sys, random, math, time
 import glob
-
+import shutil
 
 def displayImg(img, isHSV=False, title=""):
     if(isHSV):
@@ -88,5 +88,4 @@ def procedureWrapper(modelPredict, modelParams, viewName):
 if __name__ == "__main__":
     path = r"D:\Documents\Capstone_Work\Testing_Sample_keras\Bad_images_bottom"
     print(allImgInDirec(path))
-    
 
